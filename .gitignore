@@ -1,4 +1,6 @@
 outputs
+gisdata
+grassdata
 
 # History files
 .Rhistory

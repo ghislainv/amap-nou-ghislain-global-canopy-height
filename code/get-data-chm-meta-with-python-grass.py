@@ -16,6 +16,7 @@ import os
 from glob import glob
 import sys
 import subprocess
+import shutil
 
 from osgeo import gdal
 
@@ -230,8 +231,10 @@ with gdal.config_options(
 
 # Convert to COG (relatively fast, 20min)
 cback = gdal.TermProgress_nocb if verbose else 0
-input_file = opj(wd, "output", "chm-meta", "chm-meta-utm58s.tif")
-output_file = opj(wd, "output", "chm-meta", "chm-meta-utm58s-cog.tif")
+input_file = opj(wd, "output", "chm-meta",
+                 "chm-meta-utm58s.tif")
+output_file = opj(wd, "output", "chm-meta",
+                  "chm-meta-utm58s-cog.tif")
 copts = ["COMPRESS=DEFLATE", "PREDICTOR=2", "BIGTIFF=IF_NEEDED"]
 with gdal.config_options(
     {"GDAL_NUM_THREADS": "ALL_CPUS",
@@ -352,6 +355,6 @@ for f in glob(opj(wd, "output", "chm-meta", "tile_*.tif")):
     os.remove(f)
 
 # Removing grass project
-
+shutil.rmtree(opj(wd, "grassdata"))
 
 # End
